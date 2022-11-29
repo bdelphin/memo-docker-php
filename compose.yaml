@@ -1,0 +1,27 @@
+version: "3.2"
+services:
+  app:
+    build: .
+    environment:
+      # variables d'env à utiliser dans la config PDO
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: dbName
+    ports:
+      - 8080:80
+  db:
+    image: mysql:5.7
+    volumes:
+      - app-mysql-db:/var/lib/mysql # pour la persistence
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: dbName
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+
+volumes:
+  app-mysql-db:
